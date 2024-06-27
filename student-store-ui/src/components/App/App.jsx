@@ -57,6 +57,58 @@ useEffect(() => {
   };
 
   const handleOnCheckout = async () => {
+    setIsCheckingOut(true);
+    console.log(cart);
+    const newOrder = {
+      customer_id: userInfo.id,
+      email: userInfo.email,
+      status: "in progress",
+    };
+    const response = await axios.post(
+      "http://localhost:3000/orders/",
+      newOrder
+    );
+    const data = response.data;
+    console.log(data);
+    setOrder(data);
+
+    for(const [key, value] of Object.entries(cart)) {
+      const orderItem = {
+        product_id: parseInt(key),
+        quantity: parseInt(value),
+      }
+    
+
+      const response2 = await axios.post(
+        `http://localhost:3000/orders/${data.order_id}/items`,
+        orderItem
+      );
+
+      console.log(response2);
+    };
+
+    const updatedOrder = {
+      status: "completed",
+    }
+
+    const response3 = await axios.put(
+      `http://localhost:3000/orders/${data.order_id}`,
+      updatedOrder
+    )
+
+    console.log(response3);
+
+    const response4 = await axios.put(
+      `http://localhost:3000/orders/${data.order_id}`,
+    )
+
+    const data2 = response4.data;
+    setOrder(data2);
+
+    setCart({});
+    setIsCheckingOut(false);
+
+
   }
 
 
