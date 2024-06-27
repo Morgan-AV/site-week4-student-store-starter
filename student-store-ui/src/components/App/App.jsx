@@ -23,6 +23,26 @@ function App() {
   const [error, setError] = useState(null);
   const [order, setOrder] = useState(null);
 
+
+const baseUrl = "http://localhost:3000";
+
+useEffect(() => {
+  setIsFetching(true)
+  async function fetchProduct() {
+    try{
+      const res = await axios.get(`${baseUrl}/products`)
+      console.log(res);
+      setProducts(res.data);
+    } catch(error) {
+      console.error("error: fetching product", error);
+    } finally {
+      setIsFetching(false)
+    }
+  }
+  fetchProduct();
+  })
+
+
   // Toggles sidebar
   const toggleSidebar = () => setSidebarOpen((isOpen) => !isOpen);
 
