@@ -20,8 +20,9 @@ function ProductDetail({ addToCart, removeFromCart, getQuantityOfItemInCart }) {
     async function fetchProduct() {
       try{
         const response = await axios.get(`${baseUrl}/products/${productId}`);
+        const data = response.data;
         console.log(response);
-        setProduct(response.data);
+        setProduct(data);
       } catch(error) {
         console.error("error: fetching product", error);
       } finally {
